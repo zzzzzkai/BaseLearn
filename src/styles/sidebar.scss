@@ -1,0 +1,138 @@
+#app {
+
+  // 主体区域
+  .main-container {
+    min-height: 100%;
+    transition: margin-left .28s;
+    position: relative;
+    margin-left: 150px;
+  }
+
+  .main-containers {
+    min-height: 100%;
+    transition: margin-left 0.28s;
+    position: relative;
+    margin-left: 64px;
+  }
+
+  // 侧边栏
+  .sidebar-container {
+    width: 150px !important;
+    transition: width 0.28s;
+    background-color: #ccc;
+    height: 100%;
+    position: fixed;
+    font-size: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    overflow: hidden;
+
+    a {
+      display: inline-block;
+      width: 100%;
+    }
+
+    .svg-icon {
+      margin-right: 16px;
+    }
+
+    .el-menu {
+      border: none;
+      width: 100%;
+    }
+  }
+.sidebar-containers{
+  width: 64px !important;
+  transition: width .28s;
+}
+  .hideSidebar {
+
+    .sidebar-container,
+    .sidebar-container .el-menu {
+      width: 64px !important;
+      // overflow: inherit;
+    }
+
+    .main-container {
+      margin-left: 64px;
+    }
+  }
+
+  .hideSidebar {
+    .submenu-title-noDropdown {
+      padding-left: 10px;
+      position: relative;
+
+      span {
+        height: 0;
+        width: 0;
+        overflow: hidden;
+        visibility: hidden;
+        transition: opacity .28s cubic-bezier(.55, 0, .1, 1);
+        opacity: 0;
+        display: inline-block;
+      }
+
+      &:hover {
+        span {
+          display: block;
+          border-radius: 3px;
+          z-index: 1002;
+          width: 140px;
+          height: 56px;
+          visibility: visible;
+          position: absolute;
+          right: -145px;
+          text-align: left;
+          text-indent: 20px;
+          top: 0px;
+          background-color: $subMenuBg !important;
+          opacity: 1;
+        }
+      }
+
+    }
+
+    .el-submenu {
+      &>.el-submenu__title {
+        padding-left: 10px !important;
+
+        &>span {
+          display: none;
+        }
+
+        .el-submenu__icon-arrow {
+          display: none;
+        }
+      }
+
+      .nest-menu {
+        .el-submenu__icon-arrow {
+          display: block !important;
+        }
+
+        span {
+          display: inline-block !important;
+        }
+      }
+    }
+  }
+
+  //解决关于多级菜单折叠字体不隐藏
+  .el-menu--collapse {
+    width: 64px;
+    .el-submenu {
+      &>.el-submenu__title {
+        &>span {
+          height: 0;
+          width: 0;
+          overflow: hidden;
+          visibility: hidden;
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

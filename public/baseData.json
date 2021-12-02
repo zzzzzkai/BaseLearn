@@ -1,0 +1,11 @@
+{
+    "apiHost": "https://localhost:5001",
+    "apiHost1": "http://Fytjwx.mzsfy.cn",
+    "authorize_url": "",
+    "appid": " ",
+    "redirect_uri": "",
+    "hospitalName": "XX医院",
+    "hospitalTitle": "X级甲等 | 定点医保",
+    "hospitalAddress": "XXXXXXXXXX",
+    "hospitalTel": "XXX - XXXXXX"
+}
