@@ -10,7 +10,7 @@
             <el-select
               v-model="yearValue"
               size="mini"
-              style="width:100px;margin-left:5px;"
+              style="width: 100px; margin-left: 5px"
               @change="Revisionyear"
             >
               <el-option
@@ -23,7 +23,7 @@
             <el-select
               v-model="monthValue"
               size="mini"
-              style="width:100px;margin-left:5px;"
+              style="width: 100px; margin-left: 5px"
               @change="Revisionmonth"
             >
               <el-option
@@ -33,8 +33,39 @@
                 :value="item.monthValue"
               ></el-option>
             </el-select>
-            <el-button plain size="mini" style="margin-left:5px" @click="nextMonth">下一月</el-button>
-            <el-button plain size="mini" style="margin-left:5px" @click="setBtn">设置预留</el-button>
+            <el-button
+              plain
+              size="mini"
+              style="margin-left: 5px"
+              @click="nextMonth"
+              >下一月</el-button
+            >
+            <el-button
+              plain
+              size="mini"
+              style="margin-left: 5px"
+              @click="setBtn"
+              >设置预留</el-button
+            >
+            <el-upload
+              class="upload-demo"
+              action="https://localhost:5001/api/Test/t001"
+              :on-change="change"
+              multiple
+              :limit="3"
+              :file-list="fileList"
+            >
+              <el-button
+                plain
+                size="mini"
+                style="margin-left: 5px"
+                type="primary"
+                >点击上传</el-button
+              >
+              <div slot="tip" class="el-upload__tip">
+                只能上传jpg/png文件，且不超过500kb
+              </div>
+            </el-upload>
           </div>
           <!-- 提示文字 -->
           <div class="companySpan">
@@ -48,7 +79,11 @@
           <span class="sourceNow">{{ sourceValue }}</span>
         </div>
         <div class="sourceTable">
-          <div class="sourceList" v-for="(items, indexs) in everyAll" :key="indexs">
+          <div
+            class="sourceList"
+            v-for="(items, indexs) in everyAll"
+            :key="indexs"
+          >
             <div class="sourceEvery" :style="everyWidth">
               <div class="sourceDiv1">日期</div>
               <div class="sourceDiv1">星期</div>
@@ -56,19 +91,31 @@
               <div class="sourceDiv">已约</div>
               <div class="sourceDiv">剩余</div>
             </div>
-            <div class="sourceEvery" :style="everyWidth" v-for="(item, index) in items.everyData" :key="index" @click="matchDate(item)">
+            <div
+              class="sourceEvery"
+              :style="everyWidth"
+              v-for="(item, index) in items.everyData"
+              :key="index"
+              @click="matchDate(item)"
+            >
               <div class="sourceDiv1">{{ item.person_Date }}</div>
               <div class="sourceDiv1">{{ item.shift_no }}</div>
-              <div class="sourceDiv" :class="switchHaoyuanClass(item)">{{ item.person_Sum }}</div>
-              <div class="sourceDiv" :class="switchHaoyuanClass(item)">{{ item.person_Already }}</div>
-              <div class="sourceDiv" :class="switchHaoyuanClass(item)">{{ item.person_Surplus }}</div>
+              <div class="sourceDiv" :class="switchHaoyuanClass(item)">
+                {{ item.person_Sum }}
+              </div>
+              <div class="sourceDiv" :class="switchHaoyuanClass(item)">
+                {{ item.person_Already }}
+              </div>
+              <div class="sourceDiv" :class="switchHaoyuanClass(item)">
+                {{ item.person_Surplus }}
+              </div>
             </div>
           </div>
         </div>
       </div>
       <el-dialog :visible.sync="dialogVisible" width="40%">
         <!-- 选择日期 -->
-        <div style="width:100%;margin:0 auto;">
+        <div style="width: 100%; margin: 0 auto">
           <div>
             选择日期：
             <el-date-picker
@@ -83,31 +130,56 @@
             ></el-date-picker>
           </div>
           <!-- 勾选 -->
-          <div style="margin-top:10px;">
+          <div style="margin-top: 10px">
             <el-checkbox v-model="checked">是否设为休息日</el-checkbox>
           </div>
-          <div style="margin-top:10px;color:red;">(限额值为－1时,不设限额)</div>
+          <div style="margin-top: 10px; color: red">
+            (限额值为－1时,不设限额)
+          </div>
           <!-- 人数分配 -->
           <div class="nowNumber">
-            <div class="nowNumberOL" >
+            <div class="nowNumberOL">
               <div class="nowDivL"></div>
-              <div class="nowDivR nowDivL" v-for="(item,index) in personSumData" :key="index">{{item.sumtime_Name}}</div>
+              <div
+                class="nowDivR nowDivL"
+                v-for="(item, index) in personSumData"
+                :key="index"
+              >
+                {{ item.sumtime_Name }}
+              </div>
             </div>
             <div class="nowNumberOL">
               <div class="nowDivL">人数</div>
-              <div class="nowDivR nowDivL" v-for="(items,indexs) in personSumData" :key="indexs">
-                <el-input v-model="items.person_Sum" type="number" min="-1" placeholder="请输入内容"></el-input>
+              <div
+                class="nowDivR nowDivL"
+                v-for="(items, indexs) in personSumData"
+                :key="indexs"
+              >
+                <el-input
+                  v-model="items.person_Sum"
+                  type="number"
+                  min="-1"
+                  placeholder="请输入内容"
+                ></el-input>
               </div>
             </div>
             <div class="nowNumberOL">
               <div class="nowDivL">预约人数</div>
-              <div class="nowDivR nowDivL" v-for="(Already,index) in personSumData" :key="index">
-                <span>{{ Already.person_Already}}</span>
+              <div
+                class="nowDivR nowDivL"
+                v-for="(Already, index) in personSumData"
+                :key="index"
+              >
+                <span>{{ Already.person_Already }}</span>
               </div>
             </div>
-            <div class="nowNumberOL" style="border-bottom:0;">
+            <div class="nowNumberOL" style="border-bottom: 0">
               <div class="nowDivL">剩余人数</div>
-              <div class="nowDivR nowDivL" v-for="(Surplus,index) in personSumData" :key="index">
+              <div
+                class="nowDivR nowDivL"
+                v-for="(Surplus, index) in personSumData"
+                :key="index"
+              >
                 <span>{{ Surplus.person_Surplus }}</span>
               </div>
             </div>
@@ -130,6 +202,7 @@ export default {
   name: "BookGj",
   data() {
     return {
+      fileList: [],
       drawer: false, //切换号源抽屉
       hoverIndex: -1, //表示当前hover的是第几个div 初始为 -1 或 null 不能为0 0表示第一个div
       sourceValue: "个人",
@@ -151,15 +224,15 @@ export default {
 
       everyAll: [
         {
-          everyData: []
+          everyData: [],
         },
         {
-          everyData: []
-        }
+          everyData: [],
+        },
       ], //日期数据
-      sumtimeData:[],//时段数据
+      sumtimeData: [], //时段数据
       personSumData: [],
-      listData:[],
+      listData: [],
     };
   },
   created() {
@@ -170,6 +243,12 @@ export default {
     this.dateEventt();
   },
   methods: {
+    change(data) {
+      console.log("====================================");
+      console.log(data);
+      console.log("====================================");
+    },
+
     //获取值修改时的数据
     // changes(items,index){
 
@@ -182,7 +261,7 @@ export default {
     //           that.personSumData[i].person_Sum=items.person_Sum;
     //         }
     //       }
-    //     }     
+    //     }
     //   console.log(that.personSumData)
     // },
     // 上月
@@ -246,31 +325,28 @@ export default {
         var pData = {
           SumData: {
             date_Time: dates,
-            type: "person"
-          }
+            type: "person",
+          },
         };
-  
+
         ajax
           .post(apiUrls.GetBooknosum, pData)
-          .then(r => {
+          .then((r) => {
             this.personSumData = r.data.returnData;
-            for(var i=0;i< this.personSumData.length;i++){
-              if(this.personSumData[i].person_Flag=="F"){
-                  this.checked = false;
-                 // break;
-              }else{
-                this.checked=true;
+            for (var i = 0; i < this.personSumData.length; i++) {
+              if (this.personSumData[i].person_Flag == "F") {
+                this.checked = false;
+                // break;
+              } else {
+                this.checked = true;
               }
             }
           })
-          .catch(err => {
-
-          });
+          .catch((err) => {});
       }
     },
     // 设置预留  仅个检
     setBtn() {
- 
       let time = new Date();
       let y = time.getFullYear();
       let m = time.getMonth() + 1;
@@ -284,19 +360,19 @@ export default {
       var pData = {
         SumData: {
           date_Time: nowTime,
-          type: "person"
-        }
+          type: "person",
+        },
       };
       ajax
         .post(apiUrls.GetBooknosum, pData)
-        .then(r => {
+        .then((r) => {
           this.personSumData = r.data.returnData;
           // if (returnDatas[0].person_Flag == "T") {
           //   this.checked = true;
           // }
         })
-        .catch(err => {
-           this.$message.error("获取预留号源失败");
+        .catch((err) => {
+          this.$message.error("获取预留号源失败");
         });
     },
     // 修改人数确认弹窗
@@ -312,8 +388,8 @@ export default {
       // inputNumber:10,//人数
     },
     datas() {
-      var that=this;
-      var listm=that.personSumData;
+      var that = this;
+      var listm = that.personSumData;
       var person = [];
       // var person_Sum = this.inputNumber; //总号源
       // var person_Sum2 = this.inputNumber2; //总号源2
@@ -323,53 +399,52 @@ export default {
       // var person_Surplus2 = this.surplus2; //剩余号源2
       var StartTime = that.timeValue[0];
       var EndTime = that.timeValue[1];
-      for(var i=0;i<listm.length;i++){
-        
-         if (listm[i].person_Already>listm[i].person_Sum) {
-             this.$message.warning("预留数不能小于已预约数");
-            that.dialogVisible = true;
-            return;
-        }       
-      if (that.checked == true) {
-        if (listm[i].person_Already > 0) {
-           this.$message.warning(StartTime + "已有人预约禁止设置休假");
-          that.person_Flag = "F";
-          that.checked = false;
+      for (var i = 0; i < listm.length; i++) {
+        if (listm[i].person_Already > listm[i].person_Sum) {
+          this.$message.warning("预留数不能小于已预约数");
           that.dialogVisible = true;
           return;
         }
-        var person_Flag = "T";
-      } else {
-        var person_Flag = "F";
-      }
-    
-   
-      person.push({
-          person_Sum:listm[i].person_Sum,
-          person_Already:listm[i].person_Already,
-          person_Surplus:listm[i].person_Surplus,
-          person_Type:"person",
-          person_Flag:person_Flag,
-          person_Code:listm[i].sumtime_Code,
-          StartTime:StartTime,
-          EndTime:EndTime,
-        })
-    } 
- 
+        if (that.checked == true) {
+          if (listm[i].person_Already > 0) {
+            this.$message.warning(StartTime + "已有人预约禁止设置休假");
+            that.person_Flag = "F";
+            that.checked = false;
+            that.dialogVisible = true;
+            return;
+          }
+          var person_Flag = "T";
+        } else {
+          var person_Flag = "F";
+        }
 
-      ajax.post(apiUrls.UpdateBooknoTotalTj,person).then(r => {
+        person.push({
+          person_Sum: listm[i].person_Sum,
+          person_Already: listm[i].person_Already,
+          person_Surplus: listm[i].person_Surplus,
+          person_Type: "person",
+          person_Flag: person_Flag,
+          person_Code: listm[i].sumtime_Code,
+          StartTime: StartTime,
+          EndTime: EndTime,
+        });
+      }
+
+      ajax
+        .post(apiUrls.UpdateBooknoTotalTj, person)
+        .then((r) => {
           if (r.data.success) {
-             this.$message.success("修改号源成功");
+            this.$message.success("修改号源成功");
             this.dateEventt();
           }
         })
-        .catch(err => {
-           this.$message.error("修改号源失败");
+        .catch((err) => {
+          this.$message.error("修改号源失败");
         });
     },
-     getDaysByMonth(year, month) {
-            return new Date(year, month , 0).getDate();
-        },
+    getDaysByMonth(year, month) {
+      return new Date(year, month, 0).getDate();
+    },
     dateEventt() {
       var that = this;
       var date = new Date();
@@ -384,32 +459,32 @@ export default {
       if (day < 10) {
         day = "0" + day;
       }
-        let maxDate = this.getDaysByMonth(year, month);
+      let maxDate = this.getDaysByMonth(year, month);
 
-        day = Math.min(maxDate, day);
+      day = Math.min(maxDate, day);
 
       var date = year + "-" + month + "-" + day;
 
       var pData = {
         SumData: {
           date_Time: date,
-          type: "person"
-        }
+          type: "person",
+        },
       };
       // 判断奇偶数 确定 表格宽度
       var everyAll = [
         {
-          everyData: []
+          everyData: [],
         },
         {
-          everyData: []
-        }
+          everyData: [],
+        },
       ];
       ajax
         .post(apiUrls.GetMonthofDay, pData)
-        .then(r => {
+        .then((r) => {
           if (!r.data.success) {
-             this.$message.error(r.data.returnMsg);
+            this.$message.error(r.data.returnMsg);
             return;
           }
           let everyIndex; //日期中间值
@@ -434,14 +509,14 @@ export default {
                 .replace(/\:/g, "-")
                 .split("-")[2]
                 .split("T")[0];
-              if (r.data.returnData[i].person_Flag ==="T") {
+              if (r.data.returnData[i].person_Flag === "T") {
                 everyAll[0].everyData.push({
                   person_Date: person_Datee, //体检日期
                   shift_no: r.data.returnData[i].person_Week, //星期
                   person_Sum: "休假", //号源数
                   person_Already: "休假", //已约人数
                   person_Surplus: "休假", //剩余号源
-                  person_Flag: r.data.returnData[i].person_Flag //是否休假（T表示是休假）
+                  person_Flag: r.data.returnData[i].person_Flag, //是否休假（T表示是休假）
                 });
               } else {
                 everyAll[0].everyData.push({
@@ -450,7 +525,7 @@ export default {
                   person_Sum: r.data.returnData[i].person_Sum, //号源数
                   person_Already: r.data.returnData[i].person_Already, //已约人数
                   person_Surplus: r.data.returnData[i].person_Surplus, //剩余号源
-                  person_Flag: r.data.returnData[i].person_Flag //是否休假（T表示是休假）
+                  person_Flag: r.data.returnData[i].person_Flag, //是否休假（T表示是休假）
                 });
               }
             }
@@ -471,7 +546,7 @@ export default {
                   person_Sum: "休假", //号源数
                   person_Already: "休假", //已约人数
                   person_Surplus: "休假", //剩余号源
-                  person_Flag: r.data.returnData[i].person_Flag //是否休假（T表示是休假）
+                  person_Flag: r.data.returnData[i].person_Flag, //是否休假（T表示是休假）
                 });
               } else {
                 everyAll[1].everyData.push({
@@ -480,7 +555,7 @@ export default {
                   person_Sum: r.data.returnData[i].person_Sum, //号源数
                   person_Already: r.data.returnData[i].person_Already, //已约人数
                   person_Surplus: r.data.returnData[i].person_Surplus, //剩余号源
-                  person_Flag: r.data.returnData[i].person_Flag //是否休假（T表示是休假）
+                  person_Flag: r.data.returnData[i].person_Flag, //是否休假（T表示是休假）
                 });
               }
             }
@@ -492,13 +567,13 @@ export default {
               person_Sum: "", //号源数
               person_Already: "", //已约人数
               person_Surplus: "", //剩余号源
-              person_Flag: "" //是否休假（T表示是休假）
+              person_Flag: "", //是否休假（T表示是休假）
             });
           }
           that.everyAll = everyAll;
         })
-        .catch(err => {
-           this.$message.error("获取号源失败,请联系管理员");
+        .catch((err) => {
+          this.$message.error("获取号源失败,请联系管理员");
         });
     },
     // 日期数据渲染
@@ -704,8 +779,8 @@ export default {
       var year = date.getFullYear();
       this.yearValue = year;
       this.monthValue = thismonth;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -721,8 +796,14 @@ export default {
 .future-date {
   color: green;
 }
-.nowDivR .nowDivL{
-background:-webkit-gradient(linear,left bottom,left top,color-stop(0,#eee),color-stop(1,#fff));
-justify-content: center;
+.nowDivR .nowDivL {
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, #eee),
+    color-stop(1, #fff)
+  );
+  justify-content: center;
 }
 </style>
